@@ -1,0 +1,140 @@
+create table account(
+	idx int not null auto_increment,
+	accountid char(40) not null,
+	accountname char(40) null,
+	gold int not null default '0',
+	cash int not null default '0',
+	password char(40) not null,
+	PRIMARY KEY (idx)
+);
+
+create table avatar
+(
+	idx int not null auto_increment,
+	accountidx int not null,
+	avatarname char(40) default null,
+	level int not null default '1',
+	exp int not null default '0',
+	equipslot1 int default null,
+	equipslot2 int default null,
+	equipslot3 int default null,
+	PRIMARY KEY (idx),	
+	foreign key (accountidx) references account (idx) on delete cascade
+);
+
+create table inventory
+(
+	idx int not null auto_increment,
+	accountidx int not null, 
+	itemidx int not null,
+	amount int default null,
+	level int default null,
+	exp int default null,
+	equippedavataridx int default null,
+	PRIMARY KEY (idx),	
+	foreign key (accountidx) references account (idx) on delete cascade,
+	foreign key (equippedavataridx) references avatar (idx) on delete restrict on update restrict
+);
+
+create table item
+(
+	idx int not null,
+	type int not null,
+	equiptype int default null,
+	value int default null,
+	name char(40),
+	baseprice int default null,
+	upgrade_value int default null,
+	upgrade_baseprice int default null,
+	PRIMARY KEY (idx)
+);
+
+create table exp
+(
+	idx int not null auto_increment PRIMARY KEY,
+	exp int not null
+);
+
+create table property
+(
+	id char(40) not null,
+	value char(40) not null
+);
+
+
+LOAD DATA infile 'Account.csv'
+INTO TABLE account
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS
+
+LOAD DATA infile 'Avatar.csv'
+INTO TABLE avatar
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS
+(idx, accountidx, avatarname, level, exp, @equipslot1, @equipslot2, @equipslot3)
+SET
+equipslot1 = if (@equipslot1 = '', null, @equipslot1),
+equipslot2 = if (@equipslot2 = '', null, @equipslot2),
+equipslot3 = if (@equipslot3 = '', null, @equipslot3);
+
+alter table avatar
+drop foreign key avatar_ibfk_3;
+
+alter table avatar
+add foreign key (equipslot1)
+references inventory (idx) on delete restrict on update restrict;
+
+alter table avatar
+add foreign key (equipslot2)
+references inventory (idx) on delete restrict on update restrict;
+
+alter table avatar
+add foreign key (equipslot3)
+references inventory (idx) on delete restrict on update restrict;
+
+
+LOAD DATA infile 'Inventory.csv'
+INTO TABLE inventory
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS
+(idx, accountidx, itemidx, @amount, @level, @exp, @equippedavataridx)
+SET
+amount = if(@amount = '', null, @amount),
+level = if(@level = '', null, @level),
+exp = if(@exp = '', null, @exp),
+equippedavataridx = if(@equippedavataridx = '', null, @equippedavataridx);
+
+LOAD DATA infile 'Item.csv'
+INTO TABLE item
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS
+(idx, type, @equiptype, value, name, baseprice, @upgrade_value, @upgrade_baseprice)
+SET
+equiptype = if(@equiptype = '', null, @equiptype),
+upgrade_value = if(@upgrade_value = '', null, @upgrade_value),
+upgrade_baseprice = if(@upgrade_baseprice = '', null, @upgrade_baseprice);
+
+LOAD DATA infile 'Exp.csv'
+INTO TABLE exp
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS;
+
+
+LOAD DATA infile 'Property.csv'
+INTO TABLE property
+fields terminated BY ',' enclosed by '"'
+lines terminated by '\r\n'
+IGNORE 1 ROWS;
+
+
+
+// 백업 
+mysqldump -uroot -p combhoney > c:\combhoney.sql
+
+// 복원 (복원전에 사용할 database 생성해줘야한다)
+mysql -uroot -p -D combhoney < c:\combhoney.sql
