@@ -71,10 +71,23 @@ function loginSucceed(res, idx){
             res.send('아바타 정보 불러오기 실패 : ' + error);
         }else{
             if (result.length > 0){
-                console.log(result);
                 console.log('아바타 정보 받아옴');
                 //res.send(JSON.stringify(result));
-                res.send(result);
+                var data = [];
+                for (var ix in result)
+                {                
+                    data[ix] = {
+                        avatarid : result[ix].idx,
+                        avatarname : result[ix].avatarname,
+                        level : result[ix].level,
+                        exp : result[ix].exp,
+                        equipslot1 : result[ix].equipslot1,
+                        equipslot2 : result[ix].equipslot2,
+                        equipslot3 : result[ix].equipslot3,
+                    }
+                }            
+                console.log(data);
+                res.send(data);
             }else{
                 console.log('아바타 로딩 실패');
                 res.send('아바타 로딩 실패');
