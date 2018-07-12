@@ -45,10 +45,14 @@ function login(res, data){
             res.send('로그인 실패 : ' + error);
         }else{
             if (result.length > 0){
-                console.log('로그인 성공 : ' + data.accountid);
-                // 쿠키 저장                
-                res.cookie('accountid', data.accountid);
+                console.log('로그인 성공 : ' + data.accountid + ' idx : ' + result[0].idx);
+                // 쿠키 저장할 필요가 있나?
+                //res.cookie('accountid', data.accountid);
                 // 로그인 후 행동
+                //loginSucceed(data.accountid);          
+                //console.log(result[0].idx);      
+                //res.send(result);
+                loginSucceed(res, result[0].idx);
             }else{
                 console.log('로그인 실패');                    
                 res.send('로그인 실패');
@@ -57,6 +61,27 @@ function login(res, data){
 
     });
 };
+
+function loginSucceed(res, idx){
+    var query = 'select * from avatar where accountidx=?';
+    //console.log('account idx : ' + idx);
+    client.query(query, idx, function(error, result){
+        if (error){
+            console.log('아바타 정보 불러오기 실패 : ' + error);            
+            res.send('아바타 정보 불러오기 실패 : ' + error);
+        }else{
+            if (result.length > 0){
+                console.log(result);
+                console.log('아바타 정보 받아옴');
+                //res.send(JSON.stringify(result));
+                res.send(result);
+            }else{
+                console.log('아바타 로딩 실패');
+                res.send('아바타 로딩 실패');
+            }
+        }
+    });
+}
 
 module.exports = {
     'register' : register,
