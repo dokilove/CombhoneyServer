@@ -52,6 +52,16 @@ function login(res, data){
                 //loginSucceed(data.accountid);          
                 //console.log(result[0].idx);      
                 //res.send(result);
+
+                // var data = {
+                //     idx : result[0].idx,
+                //     accountid : result[0].accountid,
+                //     accountname : result[0].accountname,
+                //     gold : result[0].gold,
+                //     cash : result[0].cash  
+                // };
+                // res.send(data);
+
                 loginSucceed(res, result[0].idx);
             }else{
                 console.log('로그인 실패');                    
