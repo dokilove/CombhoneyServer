@@ -28,8 +28,13 @@ function login(req, res){
     mysqlDB.login(res, data);
 };
 
+function allAvatarInfo(req, res){
+    mysqlDB.allAvatarInfo(res, req.body.idx);
+}
+
 module.exports = {
     'connectDB' : connectDB,
     'register' : register,
-    'login' : login
+    'login' : login,
+    'allAvatarInfo' : allAvatarInfo
 };

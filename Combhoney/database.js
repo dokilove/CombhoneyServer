@@ -49,10 +49,7 @@ function login(res, data){
                 // 쿠키 저장할 필요가 있나?
                 //res.cookie('accountid', data.accountid);
                 // 로그인 후 행동
-                //loginSucceed(data.accountid);          
-                //console.log(result[0].idx);      
-                //res.send(result);
-
+                // 어카운트 정보 보내준다
                 var accountInfo = {
                     idx : result[0].idx,
                     accountid : result[0].accountid,
@@ -72,7 +69,7 @@ function login(res, data){
     });
 };
 
-function loginSucceed(res, idx){
+function allAvatarInfo(res, idx){
     var query = 'select * from avatar where accountidx=?';
     //console.log('account idx : ' + idx);
     client.query(query, idx, function(error, result){
@@ -108,5 +105,6 @@ function loginSucceed(res, idx){
 
 module.exports = {
     'register' : register,
-    'login' : login
+    'login' : login,
+    'allAvatarInfo' : allAvatarInfo
 };

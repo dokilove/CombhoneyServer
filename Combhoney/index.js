@@ -13,7 +13,8 @@ function HandlerCreator(method, path, callback){
 // 핸들 객체 설정
 var handle = [
     new HandlerCreator('post', '/register', requestHandler.register),
-    new HandlerCreator('post', '/login', requestHandler.login)
+    new HandlerCreator('post', '/login', requestHandler.login),
+    new HandlerCreator('post', '/allAvatarInfo', requestHandler.allAvatarInfo)
 ];
 
 // DB 연결
