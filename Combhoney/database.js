@@ -26,7 +26,29 @@ function register(res, data){
                     res.send('등록 실패 : ' + error);
                 }else{
                     console.log(data.accountid + ' 등록 완료');                    
-                    res.send(data.accountid + ' 등록 완료');
+                    //res.send(data.accountid + ' 등록 완료');
+                    query = 'select * from account where accountid=?';
+                    client.query(query, data.accountid, function(error, result){
+                        if (error){
+                            console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패 : ' + error);
+                            res.send('등록은 성공하였지만 데이터 불러 오는 것은 실패 : ' + error);
+                        }else{                            
+                            if (result.length > 0){
+                                var accountInfo = {
+                                    idx : result[0].idx,
+                                    accountid : result[0].accountid,
+                                    accountname : result[0].accountname,
+                                    gold : result[0].gold,
+                                    cash : result[0].cash  
+                                };
+                                console.log('어카운트 등록 성공 idx : ' + accountInfo.idx);
+                                res.send(accountInfo);
+                            }else{                                
+                                console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패');
+                                res.send('등록은 성공하였지만 데이터 불러 오는 것은 실패');
+                            }
+                        }
+                    });
                 }
             });
         }
