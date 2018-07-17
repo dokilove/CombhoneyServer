@@ -23,7 +23,11 @@ function register(res, data){
             client.query(query, data, function(error){
                 if (error){
                     console.log('등록 실패 : ' + error);                    
-                    res.send('등록 실패 : ' + error);
+                    var errorResult = {
+                        head : -1,
+                        errorcode : 100
+                    }
+                    res.send(errorResult);
                 }else{
                     console.log(data.accountid + ' 등록 완료');                    
                     //res.send(data.accountid + ' 등록 완료');
@@ -31,7 +35,11 @@ function register(res, data){
                     client.query(query, data.accountid, function(error, result){
                         if (error){
                             console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패 : ' + error);
-                            res.send('등록은 성공하였지만 데이터 불러 오는 것은 실패 : ' + error);
+                            var errorResult = {
+                                head : -1,
+                                errorcode : 101
+                            }
+                            res.send(errorResult);
                         }else{                            
                             if (result.length > 0){
                                 var accountInfo = {
@@ -45,7 +53,11 @@ function register(res, data){
                                 res.send(accountInfo);
                             }else{                                
                                 console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패');
-                                res.send('등록은 성공하였지만 데이터 불러 오는 것은 실패');
+                                var errorResult = {
+                                    head : -1,
+                                    errorcode : 102
+                                }
+                                res.send(errorResult);
                             }
                         }
                     });
@@ -54,7 +66,11 @@ function register(res, data){
         }
         else{
             console.log('이미 등록된 ID');
-            res.send('이미 등록된 ID');
+            var errorResult = {
+                head : -1,
+                errorcode : 103
+            }
+            res.send(errorResult);
         }
     });
 };
@@ -64,7 +80,11 @@ function login(res, data){
     client.query(query, [data.accountid, data.password], function(error, result){
         if (error){
             console.log('로그인 실패 : ' + error);                    
-            res.send('로그인 실패 : ' + error);
+            var errorResult = {
+                head : -1,
+                errorcode : 200
+            }
+            res.send(errorResult);
         }else{
             if (result.length > 0){
                 console.log('로그인 성공 : ' + data.accountid + ' idx : ' + result[0].idx);
@@ -84,7 +104,11 @@ function login(res, data){
                 // loginSucceed(res, result[0].idx);
             }else{
                 console.log('로그인 실패');                    
-                res.send('로그인 실패');
+                var errorResult = {
+                    head : -1,
+                    errorcode : 201
+                }
+                res.send(errorResult);
             }
         }
 
@@ -97,7 +121,11 @@ function allAvatarInfo(res, idx){
     client.query(query, idx, function(error, result){
         if (error){
             console.log('아바타 정보 불러오기 실패 : ' + error);            
-            res.send('아바타 정보 불러오기 실패 : ' + error);
+            var errorResult = {
+                head : -1,
+                errorcode : 300
+            }
+            res.send(errorResult);
         }else{
             // 아바타는 0개일 수 있다
             console.log('아바타 정보 받아옴');
