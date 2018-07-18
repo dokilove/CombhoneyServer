@@ -24,8 +24,7 @@ function register(res, data){
                 if (error){
                     console.log('등록 실패 : ' + error);                    
                     var errorResult = {
-                        head : -1,
-                        errorcode : 100
+                        errorCode : 100
                     }
                     res.send(errorResult);
                 }else{
@@ -36,8 +35,7 @@ function register(res, data){
                         if (error){
                             console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패 : ' + error);
                             var errorResult = {
-                                head : -1,
-                                errorcode : 101
+                                errorCode : 101
                             }
                             res.send(errorResult);
                         }else{                            
@@ -54,8 +52,7 @@ function register(res, data){
                             }else{                                
                                 console.log('등록은 성공하였지만 데이터 불러 오는 것은 실패');
                                 var errorResult = {
-                                    head : -1,
-                                    errorcode : 102
+                                    errorCode : 102
                                 }
                                 res.send(errorResult);
                             }
@@ -67,8 +64,7 @@ function register(res, data){
         else{
             console.log('이미 등록된 ID');
             var errorResult = {
-                head : -1,
-                errorcode : 103
+                errorCode : 103
             }
             res.send(errorResult);
         }
@@ -81,8 +77,7 @@ function login(res, data){
         if (error){
             console.log('로그인 실패 : ' + error);                    
             var errorResult = {
-                head : -1,
-                errorcode : 200
+                errorCode : 200
             }
             res.send(errorResult);
         }else{
@@ -105,8 +100,7 @@ function login(res, data){
             }else{
                 console.log('로그인 실패');                    
                 var errorResult = {
-                    head : -1,
-                    errorcode : 201
+                    errorCode : 201
                 }
                 res.send(errorResult);
             }
@@ -122,8 +116,7 @@ function allAvatarInfo(res, idx){
         if (error){
             console.log('아바타 정보 불러오기 실패 : ' + error);            
             var errorResult = {
-                head : -1,
-                errorcode : 300
+                errorCode : 300
             }
             res.send(errorResult);
         }else{
