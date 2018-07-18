@@ -98,7 +98,7 @@ function login(res, data){
 
                 // loginSucceed(res, result[0].idx);
             }else{
-                console.log('로그인 실패');                    
+                console.log('계정이 존재하지 않거나 비밀번호 오류');                    
                 var errorResult = {
                     errorCode : 201
                 }
